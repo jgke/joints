@@ -13,6 +13,8 @@ target_speed = Vector2(3, 3)
 rel_points = []
 angles = []
 
+max_angle = 360 # Adjust for limited angles
+
 for i in range(1, len(points)):
     rel_points.append(points[i] - points[i-1])
     angles.append(0)
@@ -24,6 +26,7 @@ def solve_ik(i, endpoint, target):
 
     angle = (endpoint-current_point).angle_to(target-current_point)
     angles[i] += min(max(-3, angle), 3)
+    angles[i] = min(max(180-max_angle, (angles[i]+180)%360), 180+max_angle)-180
 
     return current_point + (endpoint-current_point).rotate(angle)
 
